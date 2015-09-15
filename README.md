@@ -1,2 +1,2 @@
 # inspiration-tree
-some demos
+demo repository
