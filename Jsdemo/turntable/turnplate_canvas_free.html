@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cavas3圆形转盘-指针型</title>
+<style>  
+  html{overflow-x:hidden;}
+  body{background: #3D3D3D;}
+  body,  ul, li, table, td{margin:0; padding:0;font-family: \5FAE\8F6F\96C5\9ED1;}
+  a img{border:0;}
+  ul, li{list-style:none;}
+
+.turnplate{width:440px;height:440px;;position: relative;}
+#turnCanvas, #needleCanvas, #lineCanvas{width:440px;height:440px;position: absolute;top:0;left:0;}
+.btn{position: absolute;top:50%;left:50%;width:84px;height: 84px;margin:-42px 0 0 -42px;background: #14a3ee;border-radius: 50%;line-height: 999px;overflow: hidden;font-size: 0;}
+  </style>
+
+</head> 
+
+<body>
+
+<div class="turnplate">
+<canvas id="turnCanvas" width="440" height="440">Sorry, your browser can't support Canvas. Please to upgrade the browser, thanks!</canvas>
+<canvas id="needleCanvas" width="440" height="440">Sorry, your browser can't support Canvas. Please to upgrade the browser, thanks!</canvas>
+<a id="btnGift" href="#nolink" class="btn">BUTTON</a>
+</div>
+
+
+
+<script type="text/javascript">
+//http://www.w3schools.com/tags/ref_canvas.asp
+//http://www.cnblogs.com/cloudgamer/archive/2009/01/06/Tween.html
+
+var $id = function(id){ 
+		if (id) return document.getElementById(id);
+}
+
+//canvas绘图
+var needle = $id("needleCanvas");//指针
+var plate = $id("turnCanvas");//盘
+var myBtn = $id("btnGift");//按钮
+var drw = needle.getContext("2d");//定义画布环境
+var drwPlate = plate.getContext("2d");//定义画布环境
+
+var cWidth = 440;
+var cHeight = 440;
+//第一个绿色圆盘
+drwPlate.beginPath();
+drwPlate.arc(220,220,220,0,2*Math.PI);
+drwPlate.fillStyle = "#88c44e";
+drwPlate.fill();
+
+//第二个蓝色圆心
+drwPlate.beginPath();
+drwPlate.arc(220,220,40,0,2*Math.PI);
+drwPlate.fillStyle = "#f96727";
+drwPlate.fill();
+/*--------------------------------------------------------------------------------------------*/
+//线
+var o = 0;//原点坐标
+var r = cWidth/2;//半径
+//drwLine.clearRect(0, 0, cWidth, cHeight);
+// Move registration point to the center of the canvas
+drwPlate.translate(cWidth/2, cWidth/2);
+drwPlate.beginPath();
+for(var j=0;j<=300;j+=60){
+	drwPlate.moveTo(o,o);
+	drwPlate.lineTo(r*Math.cos(j*Math.PI/180),r*Math.sin(j*Math.PI/180));//0
+}
+
+drwPlate.strokeStyle="#fff";
+drwPlate.stroke();
+
+/*-----------------------转动的指针---------------------------------------------------------------------*/
+var speed = 10;
+var de = 30;//指针转动间隔的度数
+var i=0;//设置初始值
+
+//初始指针
+drw.fillRect(cWidth/2, cWidth/2, 80, 2);
+
+//驱使指针转动
+function needleTran(){
+		drw.clearRect(0, 0, cWidth, cHeight);
+		 // Move registration point to the center of the canvas
+		drw.translate(cWidth/2, cWidth/2);
+			
+		 // Rotate 1 degree
+		drw.rotate(de*Math.PI/180);
+		    
+		  // Move registration point back to the top left corner of canvas
+		drw.translate(-cWidth/2, -cWidth/2);
+			
+		  //drw.fillStyle = "red";
+		drw.fillRect(cWidth/2, cWidth/2, 80, 2);
+}
+
+function needleRotate(){
+	
+var radoCount = Math.floor(Math.random()*12);//Math.random()方法得到随机小数 *12将会得到小于12的数字，floor方法始终向下舍入
+		setTimeout(function (){
+			//循环体
+		needleTran();
+
+		if(i == 360/de - 1){
+			i=0;
+		}
+		else{
+			i++;
+		}
+		//判断指针结束位置
+		if(i == radoCount && speed > 100){
+				// myBtn.style.display="block";//显示按钮
+				switch( radoCount % 2){
+					case 0://指针为偶数时
+						needleTran();
+						i++;
+						alert("i: " + i + " rado:" + radoCount);
+						break;
+					case 1://指针为奇数时
+						alert("i: " + i + " rado:" + radoCount);
+						break;
+					default:
+						alert("Error");
+				}
+			speed = 10;
+				//drw.rotate(arrNee[s]*Math.PI / 180);
+			return ;
+			
+			}
+
+		  setTimeout(arguments.callee, speed+=2);
+		},10);
+
+
+}
+
+myBtn.onclick = function(){
+
+	needleRotate();
+}
+
+/*--------------------------------------------------------------------------------------------*/
+
+	
+</script>
+</body>
+</html>

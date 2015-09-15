@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>css3 圆形转盘-指针型</title>
+<style>  
+  html{overflow-x:hidden;}
+  body{background: #3D3D3D;}
+  body,  ul, li, table, td{margin:0; padding:0;font-family: \5FAE\8F6F\96C5\9ED1;}
+  a img{border:0;}
+  ul, li{list-style:none;}
+
+.turnplate{width:432px;height:432px;background: #ffc028;border-radius: 50%;position: relative;}
+.turnplate .arrow{width:232px;height:232px;position: absolute;left:50%;top:50%;margin: -116px 0 0 -116px;}
+.turnplate .arrow a{width:60px;height:60px;position: absolute;left:50%;top:50%;margin:-30px 0 0 -30px;background: #30a2fa;border-radius: 50%;}
+/*line*/
+.turnplate .line1, 
+.turnplate .line2, 
+.turnplate .line3{width:432px;height: 2px;position: absolute;top:50%;left:50%;background: #eee;margin:-1px 0 0 -216px;}
+.turnplate .line2{
+	-webkit-transform-origin:center center;
+	-webkit-transform: rotate(60deg);
+}
+.turnplate .line3{
+	-webkit-transform-origin:center center;
+	-webkit-transform: rotate(120deg);
+}
+/*Needle*/
+.turnplate .arrow .needle{
+	width:100px;
+	height:2px;
+	background: #ee4612;
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin:-1px 0 0 0px;
+	-webkit-transform-origin:left top;
+}
+
+
+  </style>
+
+</head> 
+
+<body>
+
+<div class="turnplate">
+
+	<div class="line1"></div>
+	<div class="line2"></div>
+	<div class="line3"></div>
+
+	<div class="arrow">
+		<div id="needle" class="needle"></div>
+		<a href="#nolik" id="btnGift"></a>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+var $id = function(id){ 
+		if (id) return document.getElementById(id);
+}
+
+var myBtn = $id('btnGift');
+var node = $id('needle');
+
+var speed = 10;//速度
+var i = 0;//指针转动间隔的度数
+var s;//随机数
+
+
+ myBtn.onclick = function(){
+ 	s = Math.floor(Math.random()*12);//小于12的数字
+ 	if(i ==360){
+			i=0;
+		}
+		else{
+			i+=30;
+	}
+ 	node.style.webkitTransform = "rotate("+ i + "deg)";
+
+ 	//判断指针停止
+ 	if(s==i/30 && speed > 80){
+ 		switch(i/30 % 2){
+ 			case 0:
+ 				i+=30;
+ 				node.style.webkitTransform = "rotate("+ i + "deg)";	
+ 				alert("i:"+i +"s:"+s);
+ 				break;
+ 			case 1:
+ 				alert("i:"+i +"s:"+s);
+ 				break;
+ 			default:
+ 				alert("Error");
+ 		}
+ 		speed=10;
+ 		return;
+ 	}
+ 	setTimeout(arguments.callee, speed+=2);
+
+ 	
+}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html class="hb-loaded">
+<head>
+		<meta charset="utf-8" >
+		<meta name ="viewport" content ="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" >
+		<!-- 允许全屏 -->
+		<meta name="apple-mobile-web-app-capable" content="yes" >
+		<meta name="apple-touch-fullscreen" content="yes" >
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" >
+		<title>2 小时 倒计时</title>
+		<link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+	<!-- 倒计时 start -->
+			<div class="count-down">
+				<div class="num">
+					<span class="n">
+						<span id="hour">01</span>
+					</span>
+					<span class="d">:</span>
+					<span class="n">
+						<span id="minute">59</span>
+					</span>
+					<span class="d">:</span>
+					<span class="n">
+						<span id="second">59</span>
+					</span>
+				</div>
+			</div>
+	<!-- 倒计时 end -->
+
+
+
+	<script>
+		//完美版1.0
+		var s = 59;
+		var m = 59;
+		var h = 01;
+		var ss='',ms='',hs='';
+		var ts;
+		
+		function countDown(){
+			ss = s;
+			ms = m;
+			hs = h;
+
+			if(s<10){
+				ss = '0' + s;
+			}
+			if(m<10){
+				ms = '0' + m;
+			}
+			if(h<10){
+				hs = '0' + h;
+			}
+
+			document.getElementById('second').innerHTML = ss;
+			document.getElementById('minute').innerHTML = ms;
+			document.getElementById('hour').innerHTML = hs;
+			s--;
+			ts = setTimeout("countDown()", 1000);
+			if(s < 0){
+				//分钟减一
+				m--;
+				if(m<0){
+					h--;
+					if( h < 0 && m <0){
+						clearTimeout(ts);
+					}
+					else{
+						m = 59;
+					}
+				}
+				s = 59;
+			}
+		}
+		countDown();
+	
+	</script>
+
+</body>
+</html>
